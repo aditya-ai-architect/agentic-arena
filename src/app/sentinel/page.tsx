@@ -11,7 +11,6 @@ import {
   AlertCircle,
   Clock,
   FileText,
-  Sparkles,
 } from "lucide-react";
 
 interface AgentStatus {
@@ -71,7 +70,6 @@ export default function SentinelPage() {
     setStartTime(Date.now());
     setElapsedTime(0);
 
-    // Reset agents
     setAgents((prev) => prev.map((a) => ({ ...a, status: "pending" })));
 
     try {
@@ -137,32 +135,21 @@ export default function SentinelPage() {
   };
 
   return (
-    <main className="min-h-screen pb-20">
+    <main className="page">
       <Navbar />
 
-      {/* Ambient background */}
-      <div className="ambient-bg">
-        <div className="ambient-orb orb-1" />
-        <div className="ambient-orb orb-2" />
-      </div>
-
-      <div className="max-w-6xl mx-auto px-6 pt-28 relative z-10">
+      <div className="container" style={{ paddingTop: 80, paddingBottom: 80 }}>
         {/* Header */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
-          className="text-center mb-12"
+          style={{ textAlign: "center", marginBottom: 48 }}
         >
-          <div className="glass-sm inline-flex items-center gap-2 px-4 py-2 mb-6">
-            <Sparkles className="text-white/60" size={16} />
-            <span className="text-xs text-white/50 tracking-wide uppercase">
-              Multi-Agent Intelligence
-            </span>
+          <div className="badge" style={{ marginBottom: 24 }}>
+            Multi-Agent Intelligence
           </div>
-          <h1 className="text-4xl md:text-5xl font-medium text-white mb-4 tracking-tight">
-            Sentinel Lite
-          </h1>
-          <p className="text-lg text-white/40 max-w-2xl mx-auto">
+          <h1 style={{ fontSize: 48, marginBottom: 16 }}>Sentinel Lite</h1>
+          <p className="text-muted" style={{ fontSize: 18, maxWidth: 600, margin: "0 auto" }}>
             Competitive intelligence in 12 minutes instead of 8 hours.
             Enter a company and focus area to begin.
           </p>
@@ -173,11 +160,12 @@ export default function SentinelPage() {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.1 }}
-          className="glass-strong p-8 mb-8"
+          className="glass-strong"
+          style={{ padding: 32, marginBottom: 24 }}
         >
-          <div className="grid md:grid-cols-2 gap-6 mb-6">
+          <div className="grid-2" style={{ marginBottom: 24 }}>
             <div>
-              <label className="block text-sm text-white/40 mb-2">
+              <label className="text-muted-foreground" style={{ display: "block", fontSize: 13, marginBottom: 8 }}>
                 Company Name
               </label>
               <input
@@ -185,12 +173,11 @@ export default function SentinelPage() {
                 value={company}
                 onChange={(e) => setCompany(e.target.value)}
                 placeholder="e.g., OpenAI, Stripe, Anthropic"
-                className="w-full"
                 disabled={isRunning}
               />
             </div>
             <div>
-              <label className="block text-sm text-white/40 mb-2">
+              <label className="text-muted-foreground" style={{ display: "block", fontSize: 13, marginBottom: 8 }}>
                 Research Focus
               </label>
               <input
@@ -198,17 +185,16 @@ export default function SentinelPage() {
                 value={focus}
                 onChange={(e) => setFocus(e.target.value)}
                 placeholder="e.g., enterprise strategy, pricing, product roadmap"
-                className="w-full"
                 disabled={isRunning}
               />
             </div>
           </div>
 
-          <div className="flex items-center justify-between">
-            <div className="flex items-center gap-4 text-sm text-white/40">
+          <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between" }}>
+            <div className="text-muted-foreground" style={{ display: "flex", alignItems: "center", gap: 8, fontSize: 14 }}>
               {isRunning && (
                 <>
-                  <Clock size={16} className="text-white/60" />
+                  <Clock size={16} />
                   <span>Elapsed: {formatTime(elapsedTime)}</span>
                 </>
               )}
@@ -216,7 +202,7 @@ export default function SentinelPage() {
             <button
               onClick={runSentinel}
               disabled={isRunning || !company.trim() || !focus.trim()}
-              className="btn-primary flex items-center gap-2 px-6 py-3 text-sm disabled:opacity-30 disabled:cursor-not-allowed"
+              className="btn btn-primary btn-lg"
             >
               {isRunning ? (
                 <>
@@ -238,37 +224,26 @@ export default function SentinelPage() {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.2 }}
-          className="grid grid-cols-5 gap-4 mb-8"
+          className="grid-5"
+          style={{ marginBottom: 24 }}
         >
           {agents.map((agent) => (
             <div
               key={agent.name}
-              className={`glass p-4 text-center transition-all duration-300 ${
-                agent.status === "running" ? "border-white/20" : ""
-              }`}
+              className="agent-card"
             >
-              <div
-                className={`w-10 h-10 rounded-full mx-auto mb-2 flex items-center justify-center transition-colors ${
-                  agent.status === "complete"
-                    ? "bg-green-500/20"
-                    : agent.status === "running"
-                    ? "bg-white/10"
-                    : agent.status === "error"
-                    ? "bg-red-500/20"
-                    : "bg-white/5"
-                }`}
-              >
+              <div className={`agent-icon ${agent.status}`}>
                 {agent.status === "running" ? (
-                  <Loader2 className="text-white/80 animate-spin" size={20} />
+                  <Loader2 className="text-muted animate-spin" size={18} />
                 ) : agent.status === "complete" ? (
-                  <CheckCircle2 className="text-green-400" size={20} />
+                  <CheckCircle2 style={{ color: "#22c55e" }} size={18} />
                 ) : agent.status === "error" ? (
-                  <AlertCircle className="text-red-400" size={20} />
+                  <AlertCircle style={{ color: "#ef4444" }} size={18} />
                 ) : (
-                  <div className="w-3 h-3 rounded-full bg-white/20" />
+                  <div style={{ width: 8, height: 8, borderRadius: "50%", background: "var(--border)" }} />
                 )}
               </div>
-              <div className="text-xs text-white/40">{agent.name}</div>
+              <div className="agent-name">{agent.name}</div>
             </div>
           ))}
         </motion.div>
@@ -280,12 +255,11 @@ export default function SentinelPage() {
               initial={{ opacity: 0, y: -10 }}
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, y: -10 }}
-              className="glass p-4 mb-8 border border-red-500/20 bg-red-500/5"
+              className="alert alert-error"
+              style={{ marginBottom: 24 }}
             >
-              <div className="flex items-center gap-3 text-red-400">
-                <AlertCircle size={20} />
-                <span>{error}</span>
-              </div>
+              <AlertCircle size={18} />
+              <span>{error}</span>
             </motion.div>
           )}
         </AnimatePresence>
@@ -296,24 +270,19 @@ export default function SentinelPage() {
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
-              className="glass-strong p-8"
+              className="glass-strong"
+              style={{ padding: 32 }}
             >
-              <div className="flex items-center justify-between mb-6">
-                <div className="flex items-center gap-3">
-                  <FileText className="text-white/60" size={24} />
-                  <h2 className="text-xl font-medium text-white">
-                    Intelligence Report
-                  </h2>
+              <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: 24 }}>
+                <div style={{ display: "flex", alignItems: "center", gap: 12 }}>
+                  <FileText className="text-muted" size={24} />
+                  <h2 style={{ fontSize: 20, fontWeight: 600 }}>Intelligence Report</h2>
                 </div>
-                <div className="text-sm text-white/40">
+                <span className="text-muted-foreground" style={{ fontSize: 14 }}>
                   Generated in {formatTime(elapsedTime)}
-                </div>
+                </span>
               </div>
-              <div className="prose prose-invert max-w-none">
-                <pre className="whitespace-pre-wrap text-sm text-white/70 font-mono glass p-6 overflow-auto">
-                  {report}
-                </pre>
-              </div>
+              <pre className="report">{report}</pre>
             </motion.div>
           )}
         </AnimatePresence>
@@ -323,11 +292,11 @@ export default function SentinelPage() {
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
-            className="glass p-12 text-center"
+            className="empty-state glass-static"
           >
-            <Search className="text-white/20 mx-auto mb-4" size={48} />
-            <h3 className="text-xl text-white/40 mb-2">Ready to Research</h3>
-            <p className="text-white/30">
+            <Search className="empty-state-icon" size={48} />
+            <h3 className="empty-state-title">Ready to Research</h3>
+            <p className="empty-state-description">
               Enter a company and focus area above to generate competitive intelligence.
             </p>
           </motion.div>

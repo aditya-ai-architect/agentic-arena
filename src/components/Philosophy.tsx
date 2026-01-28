@@ -2,78 +2,72 @@
 
 export default function Philosophy() {
   return (
-    <section className="py-24 px-6">
-      <div className="max-w-3xl mx-auto">
-        <div className="glass-sm inline-block px-4 py-1.5 mb-8">
-          <span className="text-xs text-white/50 tracking-wide uppercase">
-            The Difference
-          </span>
+    <section className="section">
+      <div className="container">
+        <div className="badge" style={{ marginBottom: 32 }}>
+          The Difference
         </div>
 
-        <div className="glass p-8">
-          <div className="grid md:grid-cols-2 gap-12">
+        <div className="glass-static" style={{ padding: 48 }}>
+          <div className="comparison">
             <div>
-              <h3 className="text-white/30 mb-6 text-sm font-medium uppercase tracking-wide">
-                Workflows
-              </h3>
-              <ul className="space-y-3 text-sm text-white/50">
-                <li className="flex items-center gap-3">
-                  <span className="w-1 h-1 rounded-full bg-white/20" />
+              <h3 className="comparison-title muted">Workflows</h3>
+              <ul className="comparison-list">
+                <li className="comparison-item muted">
+                  <span className="comparison-dot" />
                   Trigger fires
                 </li>
-                <li className="flex items-center gap-3">
-                  <span className="w-1 h-1 rounded-full bg-white/20" />
+                <li className="comparison-item muted">
+                  <span className="comparison-dot" />
                   Predefined path executes
                 </li>
-                <li className="flex items-center gap-3">
-                  <span className="w-1 h-1 rounded-full bg-white/20" />
+                <li className="comparison-item muted">
+                  <span className="comparison-dot" />
                   If X then Y, else Z
                 </li>
-                <li className="flex items-center gap-3">
-                  <span className="w-1 h-1 rounded-full bg-white/20" />
+                <li className="comparison-item muted">
+                  <span className="comparison-dot" />
                   You anticipate every edge case
                 </li>
-                <li className="flex items-center gap-3">
-                  <span className="w-1 h-1 rounded-full bg-white/20" />
+                <li className="comparison-item muted">
+                  <span className="comparison-dot" />
                   One unexpected input = broken
                 </li>
               </ul>
             </div>
 
             <div>
-              <h3 className="text-white/80 mb-6 text-sm font-medium uppercase tracking-wide">
-                Agents
-              </h3>
-              <ul className="space-y-3 text-sm text-white/70">
-                <li className="flex items-center gap-3">
-                  <span className="w-1 h-1 rounded-full bg-white/60" />
+              <h3 className="comparison-title">Agents</h3>
+              <ul className="comparison-list">
+                <li className="comparison-item">
+                  <span className="comparison-dot active" />
                   Context provided
                 </li>
-                <li className="flex items-center gap-3">
-                  <span className="w-1 h-1 rounded-full bg-white/60" />
+                <li className="comparison-item">
+                  <span className="comparison-dot active" />
                   Model reasons about task
                 </li>
-                <li className="flex items-center gap-3">
-                  <span className="w-1 h-1 rounded-full bg-white/60" />
+                <li className="comparison-item">
+                  <span className="comparison-dot active" />
                   Decides what to do next
                 </li>
-                <li className="flex items-center gap-3">
-                  <span className="w-1 h-1 rounded-full bg-white/60" />
+                <li className="comparison-item">
+                  <span className="comparison-dot active" />
                   Adapts to edge cases
                 </li>
-                <li className="flex items-center gap-3">
-                  <span className="w-1 h-1 rounded-full bg-white/60" />
+                <li className="comparison-item">
+                  <span className="comparison-dot active" />
                   Handles ambiguity
                 </li>
               </ul>
             </div>
           </div>
 
-          <div className="mt-10 pt-8 border-t border-white/5 text-center">
-            <p className="text-white/30 text-sm">
+          <div style={{ marginTop: 48, paddingTop: 32, borderTop: "1px solid var(--border)", textAlign: "center" }}>
+            <p className="text-muted-foreground" style={{ fontSize: 14 }}>
               Workflows = you think for the machine
             </p>
-            <p className="text-white/60 text-sm mt-2">
+            <p className="text-muted" style={{ fontSize: 14, marginTop: 8 }}>
               Agents = the machine thinks with you
             </p>
           </div>

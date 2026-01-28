@@ -2,10 +2,12 @@
 
 import { useState, useEffect } from "react";
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 import { Key } from "lucide-react";
 import ApiKeyModal from "./ApiKeyModal";
 
 export default function Navbar() {
+  const pathname = usePathname();
   const [isApiKeyModalOpen, setIsApiKeyModalOpen] = useState(false);
   const [hasApiKey, setHasApiKey] = useState(false);
 
@@ -15,32 +17,29 @@ export default function Navbar() {
 
   return (
     <>
-      <nav className="fixed top-4 left-4 right-4 z-50">
-        <div className="glass max-w-5xl mx-auto px-6 h-14 flex items-center justify-between">
-          <Link href="/" className="text-sm font-medium tracking-tight">
+      <nav className="navbar">
+        <div className="navbar-inner">
+          <Link href="/" className="navbar-logo">
             Agentic Arena
           </Link>
 
-          <div className="flex items-center gap-1">
+          <div className="navbar-links">
             <Link
               href="/sentinel"
-              className="px-4 py-2 text-sm text-white/60 hover:text-white hover:bg-white/5 rounded-lg transition-all"
+              className={`navbar-link ${pathname === "/sentinel" ? "active" : ""}`}
             >
               Sentinel
             </Link>
             <Link
               href="/voice-agent"
-              className="px-4 py-2 text-sm text-white/60 hover:text-white hover:bg-white/5 rounded-lg transition-all"
+              className={`navbar-link ${pathname === "/voice-agent" ? "active" : ""}`}
             >
               Voice
             </Link>
             <button
               onClick={() => setIsApiKeyModalOpen(true)}
-              className={`flex items-center gap-2 text-sm px-4 py-2 rounded-lg transition-all ${
-                hasApiKey
-                  ? "text-white/50 hover:text-white hover:bg-white/5"
-                  : "glass-button text-white"
-              }`}
+              className="btn btn-secondary btn-sm"
+              style={{ marginLeft: 8 }}
             >
               <Key size={14} />
               {hasApiKey ? "Key Set" : "API Key"}

@@ -22,44 +22,30 @@ const demos = [
 
 export default function DemoCards() {
   return (
-    <section className="py-24 px-6">
-      <div className="max-w-3xl mx-auto">
-        <div className="glass-sm inline-block px-4 py-1.5 mb-8">
-          <span className="text-xs text-white/50 tracking-wide uppercase">
-            Working Demos
-          </span>
+    <section className="section" style={{ paddingTop: 0 }}>
+      <div className="container">
+        <div className="badge" style={{ marginBottom: 32 }}>
+          Working Demos
         </div>
 
-        <div className="space-y-4">
+        <div style={{ display: "flex", flexDirection: "column", gap: 16 }}>
           {demos.map((demo) => (
-            <Link key={demo.title} href={demo.href}>
-              <div className="glass group p-6 hover:bg-white/[0.04] transition-all cursor-pointer">
-                <div className="flex items-start justify-between">
-                  <div className="flex items-start gap-5">
-                    <div className="glass-sm p-3">
-                      <demo.icon size={20} className="text-white/60" />
-                    </div>
-                    <div>
-                      <h3 className="font-medium text-lg mb-1">{demo.title}</h3>
-                      <p className="text-sm text-white/40 mb-3">{demo.description}</p>
-                      <div className="flex gap-2">
-                        {demo.tags.map((tag) => (
-                          <span
-                            key={tag}
-                            className="text-xs px-2 py-1 rounded-md bg-white/5 text-white/40"
-                          >
-                            {tag}
-                          </span>
-                        ))}
-                      </div>
-                    </div>
+            <Link key={demo.title} href={demo.href} className="card" style={{ display: "flex", alignItems: "flex-start", justifyContent: "space-between" }}>
+              <div style={{ display: "flex", alignItems: "flex-start", gap: 20 }}>
+                <div className="card-icon">
+                  <demo.icon size={18} className="text-muted" />
+                </div>
+                <div>
+                  <h3 className="card-title">{demo.title}</h3>
+                  <p className="card-description" style={{ marginBottom: 12 }}>{demo.description}</p>
+                  <div className="card-tags">
+                    {demo.tags.map((tag) => (
+                      <span key={tag} className="card-tag">{tag}</span>
+                    ))}
                   </div>
-                  <ArrowUpRight
-                    size={20}
-                    className="text-white/10 group-hover:text-white/40 transition-colors mt-1"
-                  />
                 </div>
               </div>
+              <ArrowUpRight size={18} className="text-muted-foreground" style={{ marginTop: 4, flexShrink: 0 }} />
             </Link>
           ))}
         </div>
