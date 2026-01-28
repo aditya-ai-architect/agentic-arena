@@ -1,103 +1,66 @@
 "use client";
 
-import { motion } from "framer-motion";
 import Link from "next/link";
-import { Search, Mic, ArrowRight, Sparkles } from "lucide-react";
-import GlassCard from "./GlassCard";
+import { Search, Mic, ArrowUpRight } from "lucide-react";
 
 const demos = [
   {
-    id: "sentinel",
-    title: "Sentinel Lite",
-    description: "Multi-agent competitive intelligence. Research any company in 12 minutes instead of 8 hours.",
+    title: "Sentinel",
+    description: "Multi-agent competitive intelligence. 8 hours of research in 12 minutes.",
     icon: Search,
-    gradient: "from-cyan-500 to-blue-500",
-    features: ["5-Agent Chain", "70% Token Savings", "Source Validation"],
     href: "/sentinel",
-    badge: "Featured",
+    tags: ["5-Agent Chain", "70% Token Savings"],
   },
   {
-    id: "voice",
     title: "Voice Agent",
-    description: "Real-time conversational AI with sub-500ms latency. Actually talk to an AI agent.",
+    description: "Real-time conversational AI with streaming speech recognition.",
     icon: Mic,
-    gradient: "from-purple-500 to-pink-500",
-    features: ["<500ms Latency", "Streaming STT/TTS", "Context Aware"],
     href: "/voice-agent",
-    badge: "Live",
+    tags: ["<500ms Latency", "Context Aware"],
   },
 ];
 
 export default function DemoCards() {
   return (
-    <section className="py-20 px-6">
-      <div className="max-w-6xl mx-auto">
-        {/* Section Header */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          className="text-center mb-16"
-        >
-          <h2 className="text-3xl md:text-4xl font-bold text-white mb-4">
+    <section className="py-24 px-6">
+      <div className="max-w-3xl mx-auto">
+        <div className="glass-sm inline-block px-4 py-1.5 mb-8">
+          <span className="text-xs text-white/50 tracking-wide uppercase">
             Working Demos
-          </h2>
-          <p className="text-zinc-400 max-w-2xl mx-auto">
-            Not tutorials. Not documentation. Actual working systems you can try right now.
-            Bring your own API key.
-          </p>
-        </motion.div>
+          </span>
+        </div>
 
-        {/* Demo Cards */}
-        <div className="grid md:grid-cols-2 gap-8">
-          {demos.map((demo, index) => (
-            <motion.div
-              key={demo.id}
-              initial={{ opacity: 0, y: 30 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ delay: index * 0.1 }}
-            >
-              <Link href={demo.href}>
-                <div className="glass-strong p-8 h-full group cursor-pointer transition-all duration-300 hover:glow-accent">
-                  {/* Header */}
-                  <div className="flex items-start justify-between mb-6">
-                    <div className={`p-4 rounded-2xl bg-gradient-to-br ${demo.gradient} bg-opacity-10`}>
-                      <demo.icon className="text-white" size={28} />
+        <div className="space-y-4">
+          {demos.map((demo) => (
+            <Link key={demo.title} href={demo.href}>
+              <div className="glass group p-6 hover:bg-white/[0.04] transition-all cursor-pointer">
+                <div className="flex items-start justify-between">
+                  <div className="flex items-start gap-5">
+                    <div className="glass-sm p-3">
+                      <demo.icon size={20} className="text-white/60" />
                     </div>
-                    <span className="px-3 py-1 text-xs font-medium rounded-full bg-green-500/10 text-green-400 border border-green-500/20">
-                      {demo.badge}
-                    </span>
+                    <div>
+                      <h3 className="font-medium text-lg mb-1">{demo.title}</h3>
+                      <p className="text-sm text-white/40 mb-3">{demo.description}</p>
+                      <div className="flex gap-2">
+                        {demo.tags.map((tag) => (
+                          <span
+                            key={tag}
+                            className="text-xs px-2 py-1 rounded-md bg-white/5 text-white/40"
+                          >
+                            {tag}
+                          </span>
+                        ))}
+                      </div>
+                    </div>
                   </div>
-
-                  {/* Content */}
-                  <h3 className="text-2xl font-semibold text-white mb-3">
-                    {demo.title}
-                  </h3>
-                  <p className="text-zinc-400 mb-6">
-                    {demo.description}
-                  </p>
-
-                  {/* Features */}
-                  <div className="flex flex-wrap gap-2 mb-6">
-                    {demo.features.map((feature) => (
-                      <span
-                        key={feature}
-                        className="px-3 py-1 text-xs rounded-lg bg-white/5 text-zinc-300 border border-white/5"
-                      >
-                        {feature}
-                      </span>
-                    ))}
-                  </div>
-
-                  {/* CTA */}
-                  <div className="flex items-center gap-2 text-cyan-400 group-hover:text-cyan-300 transition-colors">
-                    <span className="font-medium">Try Demo</span>
-                    <ArrowRight size={18} className="group-hover:translate-x-1 transition-transform" />
-                  </div>
+                  <ArrowUpRight
+                    size={20}
+                    className="text-white/10 group-hover:text-white/40 transition-colors mt-1"
+                  />
                 </div>
-              </Link>
-            </motion.div>
+              </div>
+            </Link>
           ))}
         </div>
       </div>

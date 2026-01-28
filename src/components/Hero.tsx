@@ -1,120 +1,66 @@
 "use client";
 
-import { motion } from "framer-motion";
 import Link from "next/link";
-import { ArrowRight, Zap, Clock, Brain } from "lucide-react";
-import NeuButton from "./NeuButton";
+import { ArrowRight } from "lucide-react";
 
 export default function Hero() {
-  const stats = [
-    { icon: Clock, label: "8hr → 12min", desc: "Research Time" },
-    { icon: Zap, label: "<500ms", desc: "Voice Latency" },
-    { icon: Brain, label: "5 Agents", desc: "Orchestrated" },
-  ];
-
   return (
-    <section className="min-h-screen flex items-center justify-center pt-20 pb-10 px-6">
-      <div className="max-w-6xl mx-auto text-center">
-        {/* Badge */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.1 }}
-          className="inline-flex items-center gap-2 px-4 py-2 rounded-full glass mb-8"
-        >
-          <span className="w-2 h-2 rounded-full bg-green-400 animate-pulse" />
-          <span className="text-sm text-zinc-400">Live Demos Available</span>
-        </motion.div>
+    <section className="min-h-screen flex items-center justify-center px-6 pt-20">
+      {/* Ambient background */}
+      <div className="ambient-bg">
+        <div className="ambient-orb orb-1" />
+        <div className="ambient-orb orb-2" />
+      </div>
 
-        {/* Main Heading */}
-        <motion.h1
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.2 }}
-          className="text-5xl md:text-7xl font-bold mb-6 leading-tight"
-        >
-          <span className="text-white">Stop Building Workflows.</span>
+      <div className="max-w-2xl text-center relative z-10">
+        <div className="glass-sm inline-block px-4 py-1.5 mb-8">
+          <span className="text-xs text-white/50 tracking-wide uppercase">
+            Multi-Agent AI Demos
+          </span>
+        </div>
+
+        <h1 className="text-5xl md:text-7xl font-medium tracking-tight mb-6 leading-[1.1]">
+          Build Agents,
           <br />
-          <span className="gradient-text">Build Agents.</span>
-        </motion.h1>
+          <span className="text-white/40">Not Workflows</span>
+        </h1>
 
-        {/* Subheading */}
-        <motion.p
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.3 }}
-          className="text-xl text-zinc-400 max-w-2xl mx-auto mb-12"
-        >
-          Experience the difference between flowcharts pretending to be intelligent
-          and actual agentic systems that reason, decide, and act.
-        </motion.p>
+        <p className="text-white/40 text-lg mb-12 max-w-md mx-auto leading-relaxed">
+          Experience the difference between flowcharts and actual intelligence.
+        </p>
 
-        {/* CTA Buttons */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.4 }}
-          className="flex flex-col sm:flex-row items-center justify-center gap-4 mb-16"
-        >
-          <Link href="/sentinel">
-            <NeuButton variant="primary" size="lg">
-              Try Sentinel Demo
-              <ArrowRight size={20} />
-            </NeuButton>
+        <div className="flex items-center justify-center gap-4">
+          <Link
+            href="/sentinel"
+            className="btn-primary flex items-center gap-2 px-6 py-3 text-sm"
+          >
+            Try Sentinel
+            <ArrowRight size={16} />
           </Link>
-          <Link href="/voice-agent">
-            <NeuButton variant="secondary" size="lg">
-              Voice Agent Demo
-            </NeuButton>
+          <Link
+            href="/voice-agent"
+            className="glass-button flex items-center gap-2 px-6 py-3 text-sm text-white/80"
+          >
+            Voice Agent
           </Link>
-        </motion.div>
+        </div>
 
-        {/* Stats */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.5 }}
-          className="flex flex-wrap justify-center gap-8"
-        >
-          {stats.map((stat, index) => (
-            <div key={index} className="glass px-8 py-6 flex items-center gap-4">
-              <div className="p-3 rounded-xl bg-cyan-500/10">
-                <stat.icon className="text-cyan-400" size={24} />
-              </div>
-              <div className="text-left">
-                <div className="text-2xl font-bold text-white">{stat.label}</div>
-                <div className="text-sm text-zinc-400">{stat.desc}</div>
-              </div>
-            </div>
-          ))}
-        </motion.div>
-
-        {/* Visual Element */}
-        <motion.div
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ delay: 0.8 }}
-          className="mt-20 relative"
-        >
-          <div className="absolute inset-0 bg-gradient-to-r from-cyan-500/20 to-purple-500/20 rounded-3xl blur-3xl" />
-          <div className="relative glass-strong p-8 overflow-hidden">
-            <div className="grid grid-cols-5 gap-4 opacity-50">
-              {["Orchestrator", "Searcher", "Scraper", "Analyst", "Writer"].map((agent, i) => (
-                <motion.div
-                  key={agent}
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ delay: 1 + i * 0.1 }}
-                  className="glass p-4 text-center"
-                >
-                  <div className="w-8 h-8 rounded-full bg-gradient-to-br from-cyan-500 to-purple-500 mx-auto mb-2" />
-                  <div className="text-xs text-zinc-400">{agent}</div>
-                </motion.div>
-              ))}
-            </div>
-            <div className="absolute inset-x-0 bottom-0 h-20 bg-gradient-to-t from-[#0a0a0f] to-transparent" />
+        <div className="mt-24 glass inline-flex items-center gap-12 px-10 py-6">
+          <div className="text-center">
+            <div className="text-2xl font-medium">12min</div>
+            <div className="text-xs text-white/30 mt-1">vs 8 hours</div>
           </div>
-        </motion.div>
+          <div className="w-px h-10 bg-white/10" />
+          <div className="text-center">
+            <div className="text-2xl font-medium">&lt;500ms</div>
+            <div className="text-xs text-white/30 mt-1">voice latency</div>
+          </div>
+          <div className="w-px h-10 bg-white/10" />
+          <div className="text-center">
+            <div className="text-2xl font-medium">5</div>
+            <div className="text-xs text-white/30 mt-1">agents</div>
+          </div>
+        </div>
       </div>
     </section>
   );

@@ -3,7 +3,6 @@
 import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import Navbar from "@/components/Navbar";
-import NeuButton from "@/components/NeuButton";
 import ApiKeyModal from "@/components/ApiKeyModal";
 import {
   Search,
@@ -12,7 +11,6 @@ import {
   AlertCircle,
   Clock,
   FileText,
-  ExternalLink,
   Sparkles,
 } from "lucide-react";
 
@@ -77,7 +75,6 @@ export default function SentinelPage() {
     setAgents((prev) => prev.map((a) => ({ ...a, status: "pending" })));
 
     try {
-      // Simulate agent progression with API call
       const response = await fetch("/api/sentinel", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -143,21 +140,29 @@ export default function SentinelPage() {
     <main className="min-h-screen pb-20">
       <Navbar />
 
-      <div className="max-w-6xl mx-auto px-6 pt-28">
+      {/* Ambient background */}
+      <div className="ambient-bg">
+        <div className="ambient-orb orb-1" />
+        <div className="ambient-orb orb-2" />
+      </div>
+
+      <div className="max-w-6xl mx-auto px-6 pt-28 relative z-10">
         {/* Header */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           className="text-center mb-12"
         >
-          <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full glass mb-6">
-            <Sparkles className="text-cyan-400" size={16} />
-            <span className="text-sm text-zinc-400">Multi-Agent Intelligence</span>
+          <div className="glass-sm inline-flex items-center gap-2 px-4 py-2 mb-6">
+            <Sparkles className="text-white/60" size={16} />
+            <span className="text-xs text-white/50 tracking-wide uppercase">
+              Multi-Agent Intelligence
+            </span>
           </div>
-          <h1 className="text-4xl md:text-5xl font-bold text-white mb-4">
+          <h1 className="text-4xl md:text-5xl font-medium text-white mb-4 tracking-tight">
             Sentinel Lite
           </h1>
-          <p className="text-xl text-zinc-400 max-w-2xl mx-auto">
+          <p className="text-lg text-white/40 max-w-2xl mx-auto">
             Competitive intelligence in 12 minutes instead of 8 hours.
             Enter a company and focus area to begin.
           </p>
@@ -172,7 +177,7 @@ export default function SentinelPage() {
         >
           <div className="grid md:grid-cols-2 gap-6 mb-6">
             <div>
-              <label className="block text-sm text-zinc-400 mb-2">
+              <label className="block text-sm text-white/40 mb-2">
                 Company Name
               </label>
               <input
@@ -185,7 +190,7 @@ export default function SentinelPage() {
               />
             </div>
             <div>
-              <label className="block text-sm text-zinc-400 mb-2">
+              <label className="block text-sm text-white/40 mb-2">
                 Research Focus
               </label>
               <input
@@ -200,30 +205,31 @@ export default function SentinelPage() {
           </div>
 
           <div className="flex items-center justify-between">
-            <div className="flex items-center gap-4 text-sm text-zinc-400">
+            <div className="flex items-center gap-4 text-sm text-white/40">
               {isRunning && (
                 <>
-                  <Clock size={16} className="text-cyan-400" />
+                  <Clock size={16} className="text-white/60" />
                   <span>Elapsed: {formatTime(elapsedTime)}</span>
                 </>
               )}
             </div>
-            <NeuButton
+            <button
               onClick={runSentinel}
               disabled={isRunning || !company.trim() || !focus.trim()}
-              loading={isRunning}
-              variant="primary"
-              size="lg"
+              className="btn-primary flex items-center gap-2 px-6 py-3 text-sm disabled:opacity-30 disabled:cursor-not-allowed"
             >
               {isRunning ? (
-                "Running..."
+                <>
+                  <Loader2 size={18} className="animate-spin" />
+                  Running...
+                </>
               ) : (
                 <>
-                  <Search size={20} />
+                  <Search size={18} />
                   Run Sentinel
                 </>
               )}
-            </NeuButton>
+            </button>
           </div>
         </motion.div>
 
@@ -234,11 +240,11 @@ export default function SentinelPage() {
           transition={{ delay: 0.2 }}
           className="grid grid-cols-5 gap-4 mb-8"
         >
-          {agents.map((agent, index) => (
+          {agents.map((agent) => (
             <div
               key={agent.name}
               className={`glass p-4 text-center transition-all duration-300 ${
-                agent.status === "running" ? "glow-accent" : ""
+                agent.status === "running" ? "border-white/20" : ""
               }`}
             >
               <div
@@ -246,23 +252,23 @@ export default function SentinelPage() {
                   agent.status === "complete"
                     ? "bg-green-500/20"
                     : agent.status === "running"
-                    ? "bg-cyan-500/20"
+                    ? "bg-white/10"
                     : agent.status === "error"
                     ? "bg-red-500/20"
                     : "bg-white/5"
                 }`}
               >
                 {agent.status === "running" ? (
-                  <Loader2 className="text-cyan-400 animate-spin" size={20} />
+                  <Loader2 className="text-white/80 animate-spin" size={20} />
                 ) : agent.status === "complete" ? (
                   <CheckCircle2 className="text-green-400" size={20} />
                 ) : agent.status === "error" ? (
                   <AlertCircle className="text-red-400" size={20} />
                 ) : (
-                  <div className="w-3 h-3 rounded-full bg-zinc-600" />
+                  <div className="w-3 h-3 rounded-full bg-white/20" />
                 )}
               </div>
-              <div className="text-xs text-zinc-400">{agent.name}</div>
+              <div className="text-xs text-white/40">{agent.name}</div>
             </div>
           ))}
         </motion.div>
@@ -294,17 +300,17 @@ export default function SentinelPage() {
             >
               <div className="flex items-center justify-between mb-6">
                 <div className="flex items-center gap-3">
-                  <FileText className="text-cyan-400" size={24} />
-                  <h2 className="text-xl font-semibold text-white">
+                  <FileText className="text-white/60" size={24} />
+                  <h2 className="text-xl font-medium text-white">
                     Intelligence Report
                   </h2>
                 </div>
-                <div className="text-sm text-zinc-400">
+                <div className="text-sm text-white/40">
                   Generated in {formatTime(elapsedTime)}
                 </div>
               </div>
               <div className="prose prose-invert max-w-none">
-                <pre className="whitespace-pre-wrap text-sm text-zinc-300 font-mono bg-black/30 p-6 rounded-xl overflow-auto">
+                <pre className="whitespace-pre-wrap text-sm text-white/70 font-mono glass p-6 overflow-auto">
                   {report}
                 </pre>
               </div>
@@ -319,9 +325,9 @@ export default function SentinelPage() {
             animate={{ opacity: 1 }}
             className="glass p-12 text-center"
           >
-            <Search className="text-zinc-600 mx-auto mb-4" size={48} />
-            <h3 className="text-xl text-zinc-400 mb-2">Ready to Research</h3>
-            <p className="text-zinc-500">
+            <Search className="text-white/20 mx-auto mb-4" size={48} />
+            <h3 className="text-xl text-white/40 mb-2">Ready to Research</h3>
+            <p className="text-white/30">
               Enter a company and focus area above to generate competitive intelligence.
             </p>
           </motion.div>

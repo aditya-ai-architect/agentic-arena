@@ -3,7 +3,6 @@
 import { useState, useEffect, useRef } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import Navbar from "@/components/Navbar";
-import NeuButton from "@/components/NeuButton";
 import ApiKeyModal from "@/components/ApiKeyModal";
 import {
   Mic,
@@ -15,6 +14,7 @@ import {
   Sparkles,
   Clock,
   Send,
+  Trash2,
 } from "lucide-react";
 
 interface Message {
@@ -140,21 +140,29 @@ export default function VoiceAgentPage() {
     <main className="min-h-screen pb-20">
       <Navbar />
 
-      <div className="max-w-4xl mx-auto px-6 pt-28">
+      {/* Ambient background */}
+      <div className="ambient-bg">
+        <div className="ambient-orb orb-1" />
+        <div className="ambient-orb orb-2" />
+      </div>
+
+      <div className="max-w-4xl mx-auto px-6 pt-28 relative z-10">
         {/* Header */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           className="text-center mb-8"
         >
-          <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full glass mb-6">
-            <Sparkles className="text-purple-400" size={16} />
-            <span className="text-sm text-zinc-400">Real-Time Voice AI</span>
+          <div className="glass-sm inline-flex items-center gap-2 px-4 py-2 mb-6">
+            <Sparkles className="text-white/60" size={16} />
+            <span className="text-xs text-white/50 tracking-wide uppercase">
+              Real-Time Voice AI
+            </span>
           </div>
-          <h1 className="text-4xl md:text-5xl font-bold text-white mb-4">
+          <h1 className="text-4xl md:text-5xl font-medium text-white mb-4 tracking-tight">
             Voice Agent
           </h1>
-          <p className="text-xl text-zinc-400 max-w-2xl mx-auto">
+          <p className="text-lg text-white/40 max-w-2xl mx-auto">
             Conversational AI that responds in real-time. Click the mic or type to start.
           </p>
         </motion.div>
@@ -171,8 +179,8 @@ export default function VoiceAgentPage() {
             {messages.length === 0 ? (
               <div className="h-full flex items-center justify-center">
                 <div className="text-center">
-                  <MessageSquare className="text-zinc-600 mx-auto mb-4" size={48} />
-                  <p className="text-zinc-400">
+                  <MessageSquare className="text-white/20 mx-auto mb-4" size={48} />
+                  <p className="text-white/40">
                     Start a conversation by speaking or typing
                   </p>
                 </div>
@@ -190,13 +198,13 @@ export default function VoiceAgentPage() {
                   <div
                     className={`max-w-[80%] p-4 rounded-2xl ${
                       message.role === "user"
-                        ? "bg-cyan-500/20 text-cyan-50"
-                        : "glass text-zinc-200"
+                        ? "bg-white/10 text-white"
+                        : "glass text-white/80"
                     }`}
                   >
                     <p>{message.content}</p>
                     {message.latency && (
-                      <div className="flex items-center gap-1 mt-2 text-xs text-zinc-500">
+                      <div className="flex items-center gap-1 mt-2 text-xs text-white/30">
                         <Clock size={12} />
                         <span>{message.latency}ms</span>
                       </div>
@@ -213,8 +221,8 @@ export default function VoiceAgentPage() {
               >
                 <div className="glass p-4 rounded-2xl">
                   <div className="flex items-center gap-2">
-                    <Loader2 className="animate-spin text-cyan-400" size={16} />
-                    <span className="text-zinc-400">Thinking...</span>
+                    <Loader2 className="animate-spin text-white/60" size={16} />
+                    <span className="text-white/40">Thinking...</span>
                   </div>
                 </div>
               </motion.div>
@@ -223,14 +231,12 @@ export default function VoiceAgentPage() {
           </div>
 
           {/* Input Area */}
-          <div className="flex items-center gap-4">
+          <div className="flex items-center gap-3">
             {/* Voice Toggle */}
             <button
               onClick={() => setVoiceEnabled(!voiceEnabled)}
-              className={`p-3 rounded-xl transition-colors ${
-                voiceEnabled
-                  ? "bg-purple-500/20 text-purple-400"
-                  : "bg-zinc-800 text-zinc-500"
+              className={`glass-button p-3 transition-colors ${
+                voiceEnabled ? "text-white/80" : "text-white/30"
               }`}
               title={voiceEnabled ? "Voice output on" : "Voice output off"}
             >
@@ -249,25 +255,25 @@ export default function VoiceAgentPage() {
             />
 
             {/* Send Button */}
-            <NeuButton
+            <button
               onClick={() => sendMessage(inputText)}
               disabled={!inputText.trim() || isProcessing}
-              variant="secondary"
+              className="glass-button p-3 text-white/60 hover:text-white disabled:opacity-30 disabled:cursor-not-allowed transition-colors"
             >
               <Send size={20} />
-            </NeuButton>
+            </button>
 
             {/* Mic Button */}
             <motion.button
               onClick={isListening ? undefined : startListening}
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
+              disabled={isProcessing}
               className={`p-4 rounded-2xl transition-all ${
                 isListening
-                  ? "bg-red-500/20 text-red-400 animate-pulse"
-                  : "neu-button text-cyan-400"
-              }`}
-              disabled={isProcessing}
+                  ? "bg-red-500/20 text-red-400 animate-pulse border border-red-500/30"
+                  : "glass-button text-white/80 hover:text-white"
+              } disabled:opacity-30 disabled:cursor-not-allowed`}
             >
               {isListening ? <MicOff size={24} /> : <Mic size={24} />}
             </motion.button>
@@ -276,7 +282,7 @@ export default function VoiceAgentPage() {
 
         {/* Controls */}
         <div className="flex items-center justify-between">
-          <div className="flex items-center gap-4 text-sm text-zinc-400">
+          <div className="flex items-center gap-4 text-sm text-white/40">
             {isListening && (
               <span className="flex items-center gap-2">
                 <span className="w-2 h-2 rounded-full bg-red-400 animate-pulse" />
@@ -285,11 +291,11 @@ export default function VoiceAgentPage() {
             )}
             {isSpeaking && (
               <span className="flex items-center gap-2">
-                <Volume2 size={16} className="text-purple-400" />
+                <Volume2 size={16} className="text-white/60" />
                 Speaking...
                 <button
                   onClick={stopSpeaking}
-                  className="text-zinc-500 hover:text-white"
+                  className="text-white/30 hover:text-white transition-colors"
                 >
                   Stop
                 </button>
@@ -297,13 +303,13 @@ export default function VoiceAgentPage() {
             )}
           </div>
 
-          <NeuButton
+          <button
             onClick={() => setMessages([])}
-            variant="ghost"
-            size="sm"
+            className="glass-button flex items-center gap-2 px-4 py-2 text-sm text-white/40 hover:text-white transition-colors"
           >
+            <Trash2 size={16} />
             Clear Chat
-          </NeuButton>
+          </button>
         </div>
 
         {/* Info */}
@@ -313,22 +319,24 @@ export default function VoiceAgentPage() {
           transition={{ delay: 0.3 }}
           className="mt-8 glass p-6"
         >
-          <h3 className="text-lg font-medium text-white mb-3">How it works</h3>
-          <ul className="space-y-2 text-sm text-zinc-400">
-            <li className="flex items-start gap-2">
-              <span className="text-cyan-400">•</span>
+          <h3 className="text-sm font-medium text-white/60 mb-4 uppercase tracking-wide">
+            How it works
+          </h3>
+          <ul className="space-y-3 text-sm text-white/40">
+            <li className="flex items-start gap-3">
+              <span className="w-1 h-1 rounded-full bg-white/40 mt-2" />
               Click the mic button and speak naturally
             </li>
-            <li className="flex items-start gap-2">
-              <span className="text-cyan-400">•</span>
+            <li className="flex items-start gap-3">
+              <span className="w-1 h-1 rounded-full bg-white/40 mt-2" />
               Or type your message and press Enter
             </li>
-            <li className="flex items-start gap-2">
-              <span className="text-cyan-400">•</span>
+            <li className="flex items-start gap-3">
+              <span className="w-1 h-1 rounded-full bg-white/40 mt-2" />
               The AI responds using Gemini with context awareness
             </li>
-            <li className="flex items-start gap-2">
-              <span className="text-cyan-400">•</span>
+            <li className="flex items-start gap-3">
+              <span className="w-1 h-1 rounded-full bg-white/40 mt-2" />
               Toggle voice output to hear responses spoken aloud
             </li>
           </ul>
