@@ -37,7 +37,7 @@ export default function Footer() {
             <Github size={16} />
           </a>
           <a
-            href="https://linkedin.com/in/adityagaurav-2761b3318"
+            href="https://www.linkedin.com/in/adityaai"
             target="_blank"
             rel="noopener noreferrer"
             className="icon-btn"

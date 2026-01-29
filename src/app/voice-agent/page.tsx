@@ -139,11 +139,7 @@ export default function VoiceAgentPage() {
 
       <div className="container" style={{ maxWidth: 900, paddingTop: 48, paddingBottom: 80 }}>
         {/* Header */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          style={{ textAlign: "center", marginBottom: 48 }}
-        >
+        <div style={{ textAlign: "center", marginBottom: 48 }}>
           <div className="badge" style={{ marginBottom: 24 }}>
             Real-Time Voice AI
           </div>
@@ -151,7 +147,7 @@ export default function VoiceAgentPage() {
           <p className="text-muted" style={{ fontSize: 18, maxWidth: 600, margin: "0 auto" }}>
             Conversational AI that responds in real-time. Click the mic or type to start.
           </p>
-        </motion.div>
+        </div>
 
         {/* Chat Container */}
         <motion.div
